@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
+    public CameraShake cameraShake;
     public GameObject cam;
 
     public GameObject vectorBack;
@@ -54,6 +54,22 @@ public class Player : MonoBehaviour
             {
                 rb.velocity = Vector3.zero;
             }
+        }
+    }
+    public GameObject[] FractureItems;
+
+    public void OnCollisionEnter(Collision hit)
+    {
+        if (hit.gameObject.CompareTag("Obstacles"))
+        {
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            cameraShake.CameraShakesCall();
+            foreach(GameObject item in FractureItems)
+            {
+                item.GetComponent<SphereCollider>().enabled = true;
+                item.GetComponent<Rigidbody>().isKinematic = false;
+            }
+
         }
     }
 }
